@@ -198,7 +198,7 @@ If you plan to take a late day, you MUST let the TAs know via a Piazza post how 
 
 ### Evaluation metrics
 
-Your submissions will be evaluated on a combination of metrics, including standard metrics (answer recall, exact match, F1, and ROUGE-L) and LLM-as-Judge (score 1-5) with rubrics. See section 6.1 of the original SQuAD paper for details of standard metrics. The standard metrics are token-based and measure the overlap between your system answer and the reference answer(s). Therefore, we recommend keeping your system generated responses as concise as possible.
+Your submissions will be evaluated on a combination of metrics, including standard metrics (answer recall, F1, and ROUGE-L) and LLM-as-Judge (score 1-5) with rubrics. See section 6.1 of the original SQuAD paper for details of standard metrics. The standard metrics are token-based and measure the overlap between your system answer and the reference answer(s). Therefore, we recommend keeping your system generated responses as concise as possible.
 
 ## Writing report
 
