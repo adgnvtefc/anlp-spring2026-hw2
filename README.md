@@ -47,7 +47,7 @@ For your test set and the RAG systems, you will first need to compile a knowledg
 - City of Pittsburgh [2025 Operating Budget]([https://apps.pittsburghpa.gov/redtail/images/23255_2024_Operating_Budget.pdf](https://www.pittsburghpa.gov/files/assets/city/v/4/omb/documents/operating-budgets/2025-operating-budget.pdf))
 - [About CMU & CMU History](https://www.cmu.edu/about/)
 
-**Events in Pittsburgh and CMU** (We will only ask about annual/recurring events and events happening after October 9th until the end of 2025.)
+**Events in Pittsburgh and CMU** (We will only ask about annual/recurring events and events happening after March 19.)
 - [Pittsburgh events calendar](https://pittsburgh.events): Navigate to month-specific pages for easier scraping
 - [Downtown Pittsburgh events calendar](https://downtownpittsburgh.com/events/)
 - [Pittsburgh City Paper events](https://www.pghcitypaper.com/pittsburgh/EventSearch?v=d)
@@ -98,7 +98,8 @@ Read our [model and data policy](#model-and-data-policy) for this assignment.
 ### Annotation guidelines (optional)
 - **Domain Relevance**: Training examples should be similar in nature to the evaluation data (i.e., questions about Pittsburgh and CMU). Use the knowledge resources listed above when curating examples. 
 - **Diversity**: Your training data should cover a wide range of questions Pittsburgh and CMU.
-- **Size**: The size of your training data should be sufficient to support your training objective (e.g., fine-tuning or prompt selection). There is no minimum required size. If you want some guidelines about this, see the lecture on experimental design and human annotation.[^2]. 
+- **Size**: The size of your training data should be sufficient to support your training objective (e.g., fine-tuning or prompt selection). There is no minimum required size. 
+<!-- - If you want some guidelines about this, see the lecture on experimental design and human annotation.[^2].  -->
 - **Quality**: Annotated examples should be accurate.
 
 To help you get started, here are some example questions:
@@ -150,12 +151,13 @@ Finally, you will evaluate your systems on held-out test queries and submit your
 The final unseen test set (questions only) will be released the day before the assignment is due (Wednesday, February 25th).
 
 ### Public leaderboard
-We provide a [public leaderboard](https://huggingface.co/spaces/swzwan/ANLP_S26_Assignment2) based on a small set of queries. You may submit your system’s predictions in json to the leaderboard to receive an automatic score.
+We provide a [public leaderboard](https://huggingface.co/spaces/swzwan/ANLP_S26_Assignment2) based on a small set of queries (``leaderboard_queries.json``). You may submit your system’s predictions in json to the leaderboard to receive an automatic score.
 
 For this leaderboard:
 - Only aggregate scores will be shown.
 - The reference answers will not be released.
 - You are limited to **at most 10 submissions** in total.
+- You are only allowed to submit **one answer per question**.
 - If you don't want your andrewid displayed, you can replace it with the nickname we assigned to you.
 
 The leaderboard is intended solely as a development and diagnostic tool. Scores on the leaderboard will **not** be used directly for grading.
@@ -166,7 +168,7 @@ The leaderboard is intended solely as a development and diagnostic tool. Scores 
 {
     "andrewid": <your Andrew ID or assigned nickname>
     "1": "Answer 1",
-    "2": "Answer 2; Answer 3",
+    "2": "Answer 2",
     ...
 }
 ```
@@ -281,7 +283,7 @@ A: Manual scraping is not prohibited. To what extent you would perform the task 
 A: You can use standard libraries like Selenium, Beautiful Soup, requests, pdfminer, pypdf, pdfplumber, and similar tools for data collection and preprocessing, as long as you provide proper credit in your report. These are considered basic utilities rather than high-level RAG frameworks.
 
 **Q: "What is the date range I should consider for event-based questions?"**  
-A: For any date-based questions specifically about events, we will only be asking questions about events happening from February 26th, 2026 to April 27th, 2026 (both days included). We will only ask questions about events occurring within this timeframe, including annual/recurring events.
+A: For any date-based questions specifically about events, we will only be asking questions about events happening after March 19. We will only ask questions about events occurring within this timeframe, including annual/recurring events.
 
 **Q: "Can I use any closed-source models (OpenAI, Claude, etc.)?"**  
 A: No. You cannot use any closed-source models for any part of the assignment, including embeddings, retrieval, or generation. All models must be open-weight and available through HuggingFace or similar open platforms.
