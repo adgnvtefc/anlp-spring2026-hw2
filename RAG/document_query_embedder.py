@@ -1,12 +1,14 @@
 import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import json
-import faiss
 import numpy as np
 import torch
+import faiss
 from transformers import AutoTokenizer, AutoModel
 
 class DenseRetriever:
-    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2", index_path="../data/faiss_index.bin", map_path="../data/faiss_mapping.json"):
+    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2", index_path="data/faiss_index.bin", map_path="data/faiss_mapping.json"):
         print(f"Loading HuggingFace model: {model_name}...")
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name)
@@ -47,7 +49,7 @@ class DenseRetriever:
             
         return np.array(all_embeddings).astype('float32')
 
-    def build_index(self, knowledge_base_path="../data/knowledge_base.jsonl"):
+    def build_index(self, knowledge_base_path="data/knowledge_base.jsonl"):
         """Reads the knowledge base, computes embeddings, and builds a FAISS index."""
         print("Reading knowledge base...")
         texts = []
