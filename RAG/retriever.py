@@ -16,7 +16,6 @@ class HybridRetriever:
         """
         rrf_scores = {}
         
-        # Helper to process a ranked list
         def process_results(results_list):
             for rank, res in enumerate(results_list):
                 chunk_id = res['chunk_id']
@@ -27,20 +26,17 @@ class HybridRetriever:
                         "source": res['source'],
                         "text": res['text']
                     }
-                # Add the RRF component for this rank
                 rrf_scores[chunk_id]["score"] += 1.0 / (k + rank + 1) # rank is 0-indexed
                 
         process_results(dense_results)
         process_results(sparse_results)
         
-        # Sort by accumulated RRF score descending
         fused_results = list(rrf_scores.values())
         fused_results.sort(key=lambda x: x["score"], reverse=True)
         
         return fused_results[:top_k]
 
     def normalize_min_max(self, results):
-        """Normalizes scores to a 0-1 range using min-max scaling."""
         if not results:
             return results
         
@@ -48,7 +44,6 @@ class HybridRetriever:
         min_score = min(scores)
         max_score = max(scores)
         
-        # Avoid division by zero if all scores are identical
         denominator = max_score - min_score if (max_score - min_score) > 0 else 1.0
         
         for r in results:
@@ -57,16 +52,11 @@ class HybridRetriever:
         return results
 
     def weighted_average_fusion(self, dense_results, sparse_results, dense_weight=0.6, sparse_weight=0.4, top_k=5):
-        """
-        Combines results by normalizing raw scores to 0-1 and computing a weighted average.
-        """
-        # First normalize the scores
         dense_norm = self.normalize_min_max(dense_results)
         sparse_norm = self.normalize_min_max(sparse_results)
         
         combined_scores = {}
         
-        # Process Dense
         for res in dense_norm:
             chunk_id = res['chunk_id']
             combined_scores[chunk_id] = {
@@ -76,7 +66,6 @@ class HybridRetriever:
                 "text": res['text']
             }
             
-        # Process Sparse
         for res in sparse_norm:
             chunk_id = res['chunk_id']
             if chunk_id in combined_scores:
@@ -89,18 +78,12 @@ class HybridRetriever:
                     "text": res['text']
                 }
                 
-        # Sort by accumulated weighted score descending
         fused_results = list(combined_scores.values())
         fused_results.sort(key=lambda x: x["score"], reverse=True)
         
         return fused_results[:top_k]
 
     def search(self, query: str, top_k: int = 5, method="rrf"):
-        """
-        Queries both Retrievers and fuses the results.
-        `method` can be "rrf" or "weighted".
-        """
-        # Fetch more candidates initially to improve fusion overlap (e.g. 2x top_k)
         candidate_count = max(top_k * 2, 20)
         
         dense_results = self.dense.search(query, top_k=candidate_count)
@@ -114,8 +97,6 @@ class HybridRetriever:
             raise ValueError("Fusion method must be 'rrf' or 'weighted'.")
 
 if __name__ == "__main__":
-    import time
-    
     print("Loading Dense Retriever...")
     dense = DenseRetriever()
     dense.load_index()

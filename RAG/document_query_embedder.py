@@ -20,29 +20,23 @@ class DenseRetriever:
         self.id_to_doc = {} 
 
     def mean_pooling(self, model_output, attention_mask):
-        """Mean Pooling - Takes the output from the transformer and attention mask, and averages the embeddings."""
-        token_embeddings = model_output[0] # First element of model_output contains all token embeddings
+        token_embeddings = model_output[0] 
         input_mask_expanded = attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
         return torch.sum(token_embeddings * input_mask_expanded, 1) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
 
     def encode(self, texts, batch_size=32):
-        """Encodes a list of texts into dense vectors using HuggingFace."""
         all_embeddings = []
         
         for i in range(0, len(texts), batch_size):
             batch_texts = texts[i:i + batch_size]
             
-            # Tokenize sentences
             encoded_input = self.tokenizer(batch_texts, padding=True, truncation=True, return_tensors='pt', max_length=512)
             
-            # Compute token embeddings
             with torch.no_grad():
                 model_output = self.model(**encoded_input)
                 
-            # Perform pooling
             sentence_embeddings = self.mean_pooling(model_output, encoded_input['attention_mask'])
             
-            # Normalize embeddings (equivalent to what sentence-transformers does implicitly for L2 similarity)
             sentence_embeddings = torch.nn.functional.normalize(sentence_embeddings, p=2, dim=1)
             
             all_embeddings.extend(sentence_embeddings.cpu().numpy())
@@ -50,7 +44,6 @@ class DenseRetriever:
         return np.array(all_embeddings).astype('float32')
 
     def build_index(self, knowledge_base_path="data/knowledge_base.jsonl"):
-        """Reads the knowledge base, computes embeddings, and builds a FAISS index."""
         print("Reading knowledge base...")
         texts = []
         doc_ids = []
@@ -67,7 +60,7 @@ class DenseRetriever:
         dimension = embeddings.shape[1]
         print(f"Building FAISS index (Dimension: {dimension})...")
         
-        self.index = faiss.IndexFlatIP(dimension) # Inner Product is Cosine Similarity for normalized vectors
+        self.index = faiss.IndexFlatIP(dimension) 
         self.index.add(embeddings)
         
         for i, record in enumerate(doc_ids):
@@ -92,13 +85,8 @@ class DenseRetriever:
         return False
 
     def search(self, query: str, top_k: int = 5):
-        if self.index is None:
-            if not self.load_index():
-                raise FileNotFoundError("FAISS index not found. Please run build_index() first.")
-                
         query_embedding = self.encode([query])
         
-        # Inner Product returns similarities instead of distances (higher is better)
         distances, indices = self.index.search(query_embedding, top_k)
         
         results = []

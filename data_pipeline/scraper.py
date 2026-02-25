@@ -2,14 +2,12 @@ import requests
 import os
 
 def fetch_html(url: str) -> str:
-    """Fetches the raw HTML content from a given URL."""
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers, timeout=10)
     response.raise_for_status()
     return response.text
 
 def download_pdf(url: str, save_path: str):
-    """Downloads a PDF from a URL to the local file system."""
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers, stream=True, timeout=10)
     response.raise_for_status()

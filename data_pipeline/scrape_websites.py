@@ -97,7 +97,6 @@ def main():
                 append_to_db(record)
                 added_chunks += 1
                 
-            # Be polite to Wikipedia's servers
             time.sleep(1.0)
         except Exception as e:
             print(f"Failed to scrape {url}: {e}")
