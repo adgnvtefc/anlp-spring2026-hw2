@@ -1,15 +1,22 @@
 import os
-import json
-from data_pipeline.scraper import fetch_html
-from data_pipeline.parser import parse_html_to_text
-from data_pipeline.chunker import chunk_text
 import time
+import urllib.parse
+from data_pipeline.scraper import fetch_html, download_pdf
 
-OUTPUT_DB = "data/knowledge_base.jsonl"
+SCRAPED_DIR = "scraped_data"
 
-def append_to_db(chunk_record):
-    with open(OUTPUT_DB, 'a', encoding='utf-8') as f:
-        f.write(json.dumps(chunk_record, ensure_ascii=False) + '\n')
+def get_safe_filename(url):
+    # Parse the URL to get the path and query string, replace non-alphanumeric chars
+    parsed = urllib.parse.urlparse(url)
+    name = parsed.netloc + parsed.path
+    if parsed.query:
+        name += "_" + parsed.query
+    safe_name = "".join([c if c.isalnum() else "_" for c in name])
+    
+    if url.endswith('.pdf'):
+        return safe_name + ".pdf"
+    else:
+        return safe_name + ".htm"
 
 def main():
     urls = [
@@ -20,8 +27,8 @@ def main():
         "https://en.wikipedia.org/wiki/Scott_Fahlman",
         "https://en.wikipedia.org/wiki/Zachary_Quinto",
         "https://en.wikipedia.org/wiki/Andy_Bechtolsheim",
-        "https://en.wikipedia.org/wiki/James_Gosling", # Java/Sun Micro
-        "https://en.wikipedia.org/wiki/Ivan_Sutherland", # VR pioneer
+        "https://en.wikipedia.org/wiki/James_Gosling",
+        "https://en.wikipedia.org/wiki/Ivan_Sutherland",
         "https://en.wikipedia.org/wiki/Arthur_Mellon",
         "https://en.wikipedia.org/wiki/Carnegie_Mellon_University_College_of_Fine_Arts",
         
@@ -68,41 +75,137 @@ def main():
         "https://en.wikipedia.org/wiki/Great_Fire_of_Pittsburgh",
         "https://en.wikipedia.org/wiki/Homestead_strike",
         "https://en.wikipedia.org/wiki/Fort_Pitt_Blockhouse",
-        "https://en.wikipedia.org/wiki/Alcoa", # Aluminum products
-        "https://en.wikipedia.org/wiki/Heinz", # Founded 1869 in Sharpsburg
-        "https://en.wikipedia.org/wiki/Acrisure_Stadium", # Steelers
+        "https://en.wikipedia.org/wiki/Alcoa",
+        "https://en.wikipedia.org/wiki/Heinz",
+        "https://en.wikipedia.org/wiki/Acrisure_Stadium",
         "https://en.wikipedia.org/wiki/Pittsburgh_Steelers",
         "https://en.wikipedia.org/wiki/1979_Pittsburgh_Steelers_season",
-        "https://en.wikipedia.org/wiki/1979_Pittsburgh_Pirates_season"  # "We Are Family" championship
+        "https://en.wikipedia.org/wiki/1979_Pittsburgh_Pirates_season",
+        
+        # New General Info and History
+        "https://en.wikipedia.org/wiki/Pittsburgh",
+        "https://www.pittsburghpa.gov/Home",
+        "https://www.britannica.com/place/Pittsburgh",
+        "https://www.visitpittsburgh.com",
+        "https://pittsburghpa.gov/finance/tax-forms",
+        "https://www.pittsburghpa.gov/files/assets/city/v/4/omb/documents/operating-budgets/2025-operating-budget.pdf",
+        "https://www.cmu.edu/about/",
+        
+        # Events
+        "https://pittsburgh.events",
+        "https://downtownpittsburgh.com/events/",
+        "https://www.pghcitypaper.com/pittsburgh/EventSearch?v=d",
+        "https://events.cmu.edu",
+        "https://www.cmu.edu/engage/alumni/events/campus/index.html",
+        
+        # Music and Culture
+        "https://www.pittsburghsymphony.org",
+        "https://pittsburghopera.org",
+        "https://trustarts.org",
+        "https://carnegiemuseums.org",
+        "https://www.heinzhistorycenter.org",
+        "https://www.thefrickpittsburgh.org",
+        "https://en.wikipedia.org/wiki/List_of_museums_in_Pittsburgh",
+        
+        # Food-related events
+        "https://www.visitpittsburgh.com/events-festivals/food-festivals/",
+        "https://www.picklesburgh.com/",
+        "https://www.pghtacofest.com/",
+        "https://pittsburghrestaurantweek.com/",
+        "https://littleitalydays.com",
+        "https://bananasplitfest.com",
+        
+        # Sports
+        "https://www.visitpittsburgh.com/things-to-do/pittsburgh-sports-teams/",
+        "https://www.mlb.com/pirates",
+        "https://www.steelers.com",
+        "https://www.nhl.com/penguins/",
+        
+        # -------------------------------------------------------------
+        # MORE SPECIFIC DIVERSE SOURCES based on leaderboard questions
+        # -------------------------------------------------------------
+        
+        # Restaurants & Specific Foods
+        "https://en.wikipedia.org/wiki/Gaucho_Parrilla_Argentina",
+        "https://en.wikipedia.org/wiki/Sienna_Mercato",
+        "https://en.wikipedia.org/wiki/Prantl%27s_Bakery", # burnt almond torte
+        "https://en.wikipedia.org/wiki/Pusadee%27s_Garden",
+        "https://en.wikipedia.org/wiki/Millie%27s_Homemade_Ice_Cream", # Salty caramel
+        "https://en.wikipedia.org/wiki/Morcilla_(restaurant)",
+        "https://en.wikipedia.org/wiki/Commonplace_Coffee",
+        "https://en.wikipedia.org/wiki/La_Prima_Espresso_Company",
+        "https://en.wikipedia.org/wiki/DiAnoia%27s_Eatery",
+        "https://en.wikipedia.org/wiki/The_Eagle_(restaurant)",
+        "https://en.wikipedia.org/wiki/Chengdu_Gourmet",
+        "https://en.wikipedia.org/wiki/Apteka", # Vegan
+        "https://en.wikipedia.org/wiki/Noodlehead",
+        "https://en.wikipedia.org/wiki/tako_(restaurant)",
+        "https://en.wikipedia.org/wiki/Dish_Osteria_Bar",
+        "https://en.wikipedia.org/wiki/Fet_Fisk", # Best fish fry? Pop up?
+        "https://en.wikipedia.org/wiki/Iron_Born_Pizza",
+        "https://en.wikipedia.org/wiki/The_Vandal",
+        "https://en.wikipedia.org/wiki/Driftwood_Oven",
+        "https://en.wikipedia.org/wiki/Grand_Concourse",
+        "https://en.wikipedia.org/wiki/Texas_de_Brazil", # Station square brazilian
+        "https://en.wikipedia.org/wiki/Green_Forest_Churrascaria", # Penn hills brazilian
+        "https://en.wikipedia.org/wiki/Fogo_de_Chao", # Downtown brazilian
+        "https://en.wikipedia.org/wiki/Mon_Aimee_Chocolat",
+        "https://en.wikipedia.org/wiki/Tessaro%27s", 
+        "https://en.wikipedia.org/wiki/Jerry%27s_Records", # Vintage vinyl records
+        
+        # More Specific Shopping/Places
+        "https://en.wikipedia.org/wiki/Walnut_Street_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Waterworks_Mall",
+        "https://en.wikipedia.org/wiki/Pittsburgh_Cultural_District",
+        
+        # Adding more coverage from visitpittsburgh where wikipedia might fail
+        "https://www.visitpittsburgh.com/restaurants-bars/",
+        "https://www.visitpittsburgh.com/neighborhoods/",
+        "https://www.visitpittsburgh.com/things-to-do/shopping/",
+        "https://www.visitpittsburgh.com/events-festivals/",
+        
+        # Additional Neighborhoods
+        "https://en.wikipedia.org/wiki/Squirrel_Hill_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Oakland_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Lawrenceville_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Bloomfield_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/South_Side_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Shadyside_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/East_Liberty_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/North_Shore_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Mount_Washington_(Pittsburgh)",
+        "https://en.wikipedia.org/wiki/Highland_Park_(Pittsburgh)"
     ]
 
-    print(f"Beggining scraping for {len(urls)} URLs...")
-    added_chunks = 0
+    print(f"Beginning scraping/caching for {len(urls)} URLs...")
+    os.makedirs(SCRAPED_DIR, exist_ok=True)
+    added_files = 0
     
     for url in urls:
-        print(f"Scraping: {url}")
+        filename = get_safe_filename(url)
+        filepath = os.path.join(SCRAPED_DIR, filename)
+        
+        if os.path.exists(filepath):
+            print(f"Skipping {url} (already downloaded)")
+            continue
+            
+        print(f"Downloading: {url} -> {filename}")
         try:
-            html = fetch_html(url)
-            text = parse_html_to_text(html)
-            chunks = chunk_text(text, chunk_size=200, overlap=50)
+            if url.endswith('.pdf'):
+                download_pdf(url, filepath)
+            else:
+                html = fetch_html(url)
+                # Save raw HTML
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(html)
             
-            source_name = url.split("/")[-1]
-            
-            for i, chunk in enumerate(chunks):
-                record = {
-                    "id": f"{source_name}_chunk_{i}",
-                    "source": url,
-                    "text": chunk
-                }
-                append_to_db(record)
-                added_chunks += 1
-                
-            time.sleep(1.0)
+            added_files += 1
+            time.sleep(1.0) # Polite crawling
         except Exception as e:
             print(f"Failed to scrape {url}: {e}")
             
     print(f"\n--- Scraping Complete ---")
-    print(f"Successfully added {added_chunks} new chunks to the database.")
+    print(f"Successfully downloaded {added_files} new files to {SCRAPED_DIR}.")
 
 if __name__ == "__main__":
     main()

@@ -11,7 +11,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def main():
     leaderboard_file = "leaderboard_queries.json"
-    output_file = "system_outputs/system_output_1.json"
+    output_file = "system_outputs/system_output_2.json"
     andrew_id = "hanmozha"
     
     print(f"Loading queries from {leaderboard_file}...")

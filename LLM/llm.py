@@ -12,7 +12,7 @@ class AnswerGenerator:
         device = "mps" if torch.backends.mps.is_available() else "cpu"
         print(f"Using device: {device}")
         
-       self.generator = pipeline(
+        self.generator = pipeline(
             "text-generation",
             model=model_name,
             device=device,
@@ -22,7 +22,7 @@ class AnswerGenerator:
     def build_prompt(self, question: str, retrieved_chunks: list[dict]) -> str:
         context_str = "\n---\n".join([f"Source: {c['source']}\nText: {c['text']}" for c in retrieved_chunks])
         
-        prompt = f"""You are a helpful and precise assistant. Answer the user's question using ONLY the provided context. If the context does not contain the answer, say "I don't know based on the provided context." Be strictly factual and concise.
+        prompt = f"""You are a helpful and precise assistant. Answer the user's question using ONLY the provided context. Be strictly factual and concise; do not explain your reasoning.
 
                     Context:
                     {context_str}
@@ -33,7 +33,7 @@ class AnswerGenerator:
                 """
         return prompt
 
-    def generate(self, question: str, retrieved_chunks: list[dict], max_new_tokens=50, temperature=0.1) -> str:
+    def generate(self, question: str, retrieved_chunks: list[dict], max_new_tokens=50, temperature=0.1, max_length=None) -> str:
         prompt = self.build_prompt(question, retrieved_chunks)
         
         outputs = self.generator(
