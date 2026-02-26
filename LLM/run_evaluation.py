@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import torch
 from tqdm import tqdm
 from RAG.document_query_embedder import DenseRetriever
 from RAG.sparse_embedder import SparseRetriever
@@ -11,7 +12,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def main():
     leaderboard_file = "leaderboard_queries.json"
-    output_file = "system_outputs/system_output_2.json"
+    output_file = "system_outputs/system_output_5.json"
     andrew_id = "hanmozha"
     
     print(f"Loading queries from {leaderboard_file}...")
@@ -42,11 +43,19 @@ def main():
         q_id = q["id"]
         q_text = q["question"]
         
-        chunks = hybrid.search(q_text, top_k=5, method="rrf")
+        chunks = hybrid.search(q_text, top_k=10, method="rrf")
         
         answer = generator.generate(q_text, chunks)
         
         results[q_id] = answer
+
+        # Clear MPS cache for Apple Silicon
+        if torch.backends.mps.is_available():
+            torch.mps.empty_cache()
+            
+        # Clear CUDA cache for NVIDIA GPUs
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
 
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
     with open(output_file, 'w', encoding='utf-8') as f:

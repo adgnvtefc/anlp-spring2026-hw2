@@ -8,10 +8,18 @@ import faiss
 from transformers import AutoTokenizer, AutoModel
 
 class DenseRetriever:
-    def __init__(self, model_name="sentence-transformers/all-MiniLM-L6-v2", index_path="data/faiss_index.bin", map_path="data/faiss_mapping.json"):
+    def __init__(self, model_name="BAAI/bge-small-en-v1.5", index_path="data/faiss_index.bin", map_path="data/faiss_mapping.json"):
         print(f"Loading HuggingFace model: {model_name}...")
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name)
+        
+        if torch.cuda.is_available():
+            self.device = torch.device("cuda")
+        else:
+            self.device = torch.device("cpu")
+        
+        self.model.to(self.device)
+        print(f"Model loaded to {self.device}")
         
         self.index_path = index_path
         self.map_path = map_path
@@ -31,6 +39,7 @@ class DenseRetriever:
             batch_texts = texts[i:i + batch_size]
             
             encoded_input = self.tokenizer(batch_texts, padding=True, truncation=True, return_tensors='pt', max_length=512)
+            encoded_input = {k: v.to(self.device) for k, v in encoded_input.items()}
             
             with torch.no_grad():
                 model_output = self.model(**encoded_input)
@@ -85,7 +94,9 @@ class DenseRetriever:
         return False
 
     def search(self, query: str, top_k: int = 5):
-        query_embedding = self.encode([query])
+        # BGE models require an explicit instruction prefix for query embeddings
+        instruction = "Represent this sentence for searching relevant passages: "
+        query_embedding = self.encode([instruction + query])
         
         distances, indices = self.index.search(query_embedding, top_k)
         

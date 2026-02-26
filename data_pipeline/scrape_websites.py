@@ -23,34 +23,34 @@ def main():
         # CMU People & Culture
         "https://en.wikipedia.org/wiki/Andy_Warhol",
         "https://en.wikipedia.org/wiki/Randy_Pausch",
-        "https://en.wikipedia.org/wiki/Randy_Pausch_Last_Lecture",
+        "https://en.wikipedia.org/wiki/The_Last_Lecture",
         "https://en.wikipedia.org/wiki/Scott_Fahlman",
         "https://en.wikipedia.org/wiki/Zachary_Quinto",
         "https://en.wikipedia.org/wiki/Andy_Bechtolsheim",
         "https://en.wikipedia.org/wiki/James_Gosling",
         "https://en.wikipedia.org/wiki/Ivan_Sutherland",
-        "https://en.wikipedia.org/wiki/Arthur_Mellon",
-        "https://en.wikipedia.org/wiki/Carnegie_Mellon_University_College_of_Fine_Arts",
+        "https://en.wikipedia.org/wiki/Richard_B._Mellon",
+        "https://en.wikipedia.org/wiki/College_of_Fine_Arts_(Carnegie_Mellon_University)",
         
         # CMU Projects / Robotics
         "https://en.wikipedia.org/wiki/Alice_(software)",
         "https://en.wikipedia.org/wiki/Deep_Thought_(chess_computer)",
         "https://en.wikipedia.org/wiki/Libratus",
-        "https://en.wikipedia.org/wiki/NavLab",
+        "https://en.wikipedia.org/wiki/Navlab",
         "https://en.wikipedia.org/wiki/DARPA_Grand_Challenge#2007_Urban_Challenge",
         "https://en.wikipedia.org/wiki/Andrew_File_System",
-        "https://en.wikipedia.org/wiki/Plaid_Parliament_of_Pwning",
+        "https://pwning.net/",
         
         # CMU Life
         "https://en.wikipedia.org/wiki/The_Tartans",
-        "https://en.wikipedia.org/wiki/Buggy_(Carnegie_Mellon_University)",
+        "https://en.wikipedia.org/wiki/Sweepstakes_(Carnegie_Mellon_University)",
         "https://en.wikipedia.org/wiki/The_Tartan_(Carnegie_Mellon_University)",
         
         # Pittsburgh Restaurants, Food & Festivals
         "https://en.wikipedia.org/wiki/Primanti_Brothers",
         "https://en.wikipedia.org/wiki/Pamela%27s_Diner",
         "https://en.wikipedia.org/wiki/Picklesburgh",
-        "https://en.wikipedia.org/wiki/Little_Italy_Days",
+        "https://littleitalydays.com/",
         "https://en.wikipedia.org/wiki/Strip_District,_Pittsburgh",
         "https://en.wikipedia.org/wiki/Market_Square_(Pittsburgh)",
         "https://en.wikipedia.org/wiki/Wholey%27s",
@@ -126,37 +126,37 @@ def main():
         # -------------------------------------------------------------
         
         # Restaurants & Specific Foods
-        "https://en.wikipedia.org/wiki/Gaucho_Parrilla_Argentina",
-        "https://en.wikipedia.org/wiki/Sienna_Mercato",
-        "https://en.wikipedia.org/wiki/Prantl%27s_Bakery", # burnt almond torte
-        "https://en.wikipedia.org/wiki/Pusadee%27s_Garden",
-        "https://en.wikipedia.org/wiki/Millie%27s_Homemade_Ice_Cream", # Salty caramel
-        "https://en.wikipedia.org/wiki/Morcilla_(restaurant)",
-        "https://en.wikipedia.org/wiki/Commonplace_Coffee",
+        "https://eatgaucho.com/",
+        "https://siennamercato.com/",
+        "https://prantlsbakery.com/", # burnt almond torte
+        "https://pusadeesgarden.com/",
+        "https://millieshomemade.com/", # Salty caramel
+        "https://morcillapittsburgh.com/",
+        "https://commonplacecoffee.com/",
         "https://en.wikipedia.org/wiki/La_Prima_Espresso_Company",
-        "https://en.wikipedia.org/wiki/DiAnoia%27s_Eatery",
-        "https://en.wikipedia.org/wiki/The_Eagle_(restaurant)",
-        "https://en.wikipedia.org/wiki/Chengdu_Gourmet",
+        "https://dianoiaseatery.com/",
+        "https://www.eaglerestaurant.com/",
+        "https://chengdugourmetpa.com/",
         "https://en.wikipedia.org/wiki/Apteka", # Vegan
         "https://en.wikipedia.org/wiki/Noodlehead",
-        "https://en.wikipedia.org/wiki/tako_(restaurant)",
-        "https://en.wikipedia.org/wiki/Dish_Osteria_Bar",
-        "https://en.wikipedia.org/wiki/Fet_Fisk", # Best fish fry? Pop up?
-        "https://en.wikipedia.org/wiki/Iron_Born_Pizza",
+        "https://takopgh.com/",
+        "https://dishosteria.com/",
+        "https://fetfisk.net/", # Best fish fry? Pop up?
+        "https://ironbornpizza.com/",
         "https://en.wikipedia.org/wiki/The_Vandal",
-        "https://en.wikipedia.org/wiki/Driftwood_Oven",
+        "https://www.driftwoodoven.com/",
         "https://en.wikipedia.org/wiki/Grand_Concourse",
         "https://en.wikipedia.org/wiki/Texas_de_Brazil", # Station square brazilian
-        "https://en.wikipedia.org/wiki/Green_Forest_Churrascaria", # Penn hills brazilian
+        "https://greenforestdining.com/", # Penn hills brazilian
         "https://en.wikipedia.org/wiki/Fogo_de_Chao", # Downtown brazilian
-        "https://en.wikipedia.org/wiki/Mon_Aimee_Chocolat",
-        "https://en.wikipedia.org/wiki/Tessaro%27s", 
-        "https://en.wikipedia.org/wiki/Jerry%27s_Records", # Vintage vinyl records
+        "https://monaimeechocolat.com/",
+        "https://tessaros.com/", 
+        "https://jerrysrecords.com/", # Vintage vinyl records
         
         # More Specific Shopping/Places
         "https://en.wikipedia.org/wiki/Walnut_Street_(Pittsburgh)",
         "https://en.wikipedia.org/wiki/Waterworks_Mall",
-        "https://en.wikipedia.org/wiki/Pittsburgh_Cultural_District",
+        "https://culturaldistrict.org/",
         
         # Adding more coverage from visitpittsburgh where wikipedia might fail
         "https://www.visitpittsburgh.com/restaurants-bars/",

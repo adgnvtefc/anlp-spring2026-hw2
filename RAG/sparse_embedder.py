@@ -1,12 +1,31 @@
 import os
 import json
 import bm25s
+import nltk
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
+
+# Ensure NLTK resources are available
+nltk.download('stopwords', quiet=True)
 
 class SparseRetriever:
     def __init__(self, index_dir="data/bm25_index"):
         self.index_dir = index_dir
         self.retriever = None
         self.id_to_doc = {}
+        
+        self.stemmer = PorterStemmer()
+        self.stopwords = set(stopwords.words('english'))
+
+    def _stem_words(self, words):
+        return [self.stemmer.stem(w) for w in words]
+
+    def _tokenize(self, texts):
+        return bm25s.tokenize(
+            texts, 
+            stopwords=list(self.stopwords), 
+            stemmer=self._stem_words
+        )
 
     def build_index(self, knowledge_base_path="data/knowledge_base.jsonl"):
         print("Reading knowledge base for BM25...")
@@ -20,8 +39,8 @@ class SparseRetriever:
                 doc_ids.append(record)
                 self.id_to_doc[i] = record
                 
-        print(f"Tokenizing {len(texts)} chunks for sparse retrieval...")
-        corpus_tokens = bm25s.tokenize(texts)
+        print(f"Tokenizing {len(texts)} chunks for sparse retrieval with NLTK stemming...")
+        corpus_tokens = self._tokenize(texts)
         
         print("Building BM25 index...")
         self.retriever = bm25s.BM25()
@@ -58,7 +77,7 @@ class SparseRetriever:
             if not self.load_index():
                 raise FileNotFoundError("BM25 index not found. Please run build_index() first.")
                 
-        query_tokens = bm25s.tokenize([query])
+        query_tokens = self._tokenize([query])
         
         results_obj = self.retriever.retrieve(query_tokens, k=top_k)
         

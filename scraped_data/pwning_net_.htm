@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Plaid Parliament of Pwning</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CTF Team @ Carnegie Mellon University">
+    <meta name="author" content="PPP">
+    
+    <link rel="manifest" href="/manifest.json">
+    <link rel="canonical" href="https://pwning.net/">
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed for Plaid Parliament of Pwning" href="/feed.xml" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/pixyll.css?202405162228" type="text/css">
+    <link rel="stylesheet" href="/css/pwning.css?202405162228" type="text/css">
+    <!-- Lightbox2 -->
+    <link rel="stylesheet" href="/js/lightbox2/dist/css/lightbox.css" type="text/css">
+
+    <!-- Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Merriweather:900,900italic,300,300italic|Lato:900,300|Material+Icons|Signika' rel='stylesheet' type='text/css'>
+    
+
+    <!-- Open Graph -->
+    <!-- From: https://github.com/mmistakes/hpstr-jekyll-theme/blob/master/_includes/head.html -->
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Plaid Parliament of Pwning">
+    <meta property="og:description" content="CTF Team @ Carnegie Mellon University">
+    <meta property="og:url" content="https://pwning.net/">
+    <meta property="og:site_name" content="Plaid Parliament of Pwning">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    
+        <meta name="twitter:site" content="@plaidctf" />
+    
+    <meta name="twitter:title" content="Plaid Parliament of Pwning" />
+    <meta name="twitter:description" content="CTF Team @ Carnegie Mellon University" />
+    <meta name="twitter:url" content="https://pwning.net/" />
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-160x160.png" sizes="160x160">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+
+    <!-- Scripts -->
+    <script src="/js/custom/navigation-helper.js"></script>
+    
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-53548208-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    
+</head>
+
+<body class="site">
+  <div class="site-wrap">
+	<div class="row">
+	<div class="sidebar-col site-title">
+		<div class="ppp-header">
+			<a href="/" class="page-title">
+				<img class="icon" src="/images/new_logo_light.png" />
+				Plaid Parliament of Pwning
+			</a>
+		</div>
+		<i class="material-icons nav-burger phone-only">
+			menu
+		</i>
+	</div>
+	<div class="content-col site-nav">
+		<div class="navigation-contents">
+	<a class="navigation-link active" href="/">Home</a>
+	<a class="navigation-link " href="/blog">Blog</a>
+	<a class="navigation-link " href="/about">About</a>
+	<a class="navigation-link " href="/contact">Contact</a>
+	<a class="navigation-link " href="/sponsors">Sponsors</a>
+	<a class="navigation-link" href="http://plaidctf.com">PlaidCTF</a>
+</div>
+	</div> 
+</div>
+
+    <div class="row key-header desktop-only">
+	<div class="sidebar-col sidebar-override key-component">
+	</div>
+	<div class="content-col key-component">
+		<div class="key-sub-header"></div>
+		<div class="key-header">Home</div>
+		<svg class="key" width="12347px" height="120px" viewBox="0 0 12347 120" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <path d="M1.69109171e-12,-11000 L4.20419255e-12,1306.89786 C4.2042899e-12,1307.69281 0.315521007,1308.45527 0.877264154,1309.01776 L30.6940515,1338.87438 C31.8648421,1340.04674 33.7643366,1340.048 34.9366913,1338.87721 C34.9376514,1338.87625 34.9386108,1338.8753 34.9395697,1338.87434 L93.5412025,1280.19185 C94.1029172,1279.62936 94.4184202,1278.86692 94.4184202,1278.07199 L94.4184202,1263.69476 C94.4184202,1262.89969 94.1028079,1262.13713 93.5409209,1261.57462 L85.5419759,1253.56677 C84.9800889,1253.00425 84.6644766,1252.2417 84.6644766,1251.44663 L84.6644766,1241.0548 C84.6644766,1240.25989 84.979959,1239.49748 85.5416413,1238.935 L94.1999314,1230.26433 C94.7616137,1229.70184 95.0770961,1228.93943 95.0770961,1228.14452 L95.0770961,1213.10427 C95.0770961,1212.30936 94.7616137,1211.54695 94.1999314,1210.98447 L76.1478149,1192.90654 C75.5861326,1192.34405 75.2706502,1191.58164 75.2706502,1190.78674 L75.2706502,1167.88668 C75.2706502,1167.0917 75.5861903,1166.32922 76.1479635,1165.76672 L96.363564,1145.52506 C96.9253371,1144.96256 97.2408772,1144.20008 97.2408772,1143.4051 L97.2408772,1125.57855 C97.2408772,1124.78365 96.9253948,1124.02123 96.3637125,1123.45875 L91.3589192,1118.4468 C90.7972368,1117.88431 90.4817544,1117.1219 90.4817544,1116.327 L90.4817544,1098.50032 C90.4817544,1097.70542 90.7972368,1096.943 91.3589192,1096.38052 L103.122835,1084.59978 C103.684518,1084.0373 104,1083.27488 104,1082.47998 L104,1058.96423 C104,1058.96416 104,1058.96409 104,1058.96402 L103.92613,-11000 Z" id="path-1"></path>
+        <filter x="-14.4%" y="-1.0%" width="125.0%" height="101.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="-2" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="4" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <path d="M-8.69704309e-12,0.75110908 L-8.51344846e-12,350.860688 L30.2242353,381.266099 C31.5425882,382.595566 33.6837647,382.595566 35.0021176,381.266099 L93.8324706,322.080182 L93.8324706,305.243339 L84.1390588,295.493912 L84.1390588,282.642394 L94.4870588,272.228233 L94.4870588,254.735889 L74.8035294,234.932365 L74.8035294,209.586316 L96.6374118,187.622407 L96.6374118,167.344953 L89.9202353,160.586827 L89.9202353,140.309372 L103.354588,126.793121 L103.354588,102.077953 L103.281176,0.75110908" id="path-3"></path>
+        <path d="M-0,-11000 L3.24945947e-12,1308.19108 L30.2242353,1338.5965 C31.5425882,1339.92596 33.6837647,1339.92596 35.0021176,1338.5965 L93.8324706,1279.41058 L93.8324706,1262.57374 L84.1390588,1252.82431 L84.1390588,1239.97279 L94.4870588,1229.55863 L94.4870588,1212.06629 L74.8035294,1192.26276 L74.8035294,1166.91671 L96.6374118,1144.9528 L96.6374118,1124.67535 L89.9202353,1117.91722 L89.9202353,1097.63977 L103.354588,1084.12352 L103.354588,1059.40835 L104,-11000 Z" id="path-5"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(11000, 0)">
+        <g id="Desktop-HD-Copy-3" transform="translate(0.000000, -58.000000)">
+            <g id="Page"></g>
+            <g id="Group-8" transform="translate(670, 116.000000) rotate(-90.000000) translate(-670, -116.000000) translate(618, -554)">
+                <g id="Fill-1">
+                    <!--use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use-->
+                    <use fill="#CE0303" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <g id="Group-7" opacity="0.3">
+                    <g id="Group-4" transform="translate(0.000000, 957)">
+                        <mask id="mask-4" fill="white">
+                            <use xlink:href="#path-3"></use>
+                        </mask>
+                        <g id="Clip-3"></g>
+                        <path d="M32.6134824,383.670219 L18.2094824,369.178409 L18.2094824,87.4575051 C18.2094824,85.6541072 20.6596,85.1401696 21.3784235,86.7927714 L32.4758353,112.409638 C32.5645412,112.618906 32.6134824,112.846639 32.6134824,113.074372 L32.6134824,383.670219 Z" id="Fill-2" fill="#000000" mask="url(#mask-4)"></path>
+                    </g>
+                    <mask id="mask-6" fill="white">
+                        <use xlink:href="#path-5"></use>
+                    </mask>
+                    <g id="Clip-6"></g>
+                    <polygon id="Fill-5" fill="#000000" mask="url(#mask-6)" points="56.7167059 1316.74953 104.107059 1316.74953 104.107059 -11000 56.7167059 -11000"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+    <!--g id="shaft">
+        <rect x="0" y="6" width="12000" height="104" fill="#CE0303"/>
+    </g-->
+</svg>
+	</div>
+</div>
+<div class="row key-bar phone-only">
+	<div class="sidebar-col"></div>
+	<div class="content-col">
+		<div class="key-top">
+			
+		</div>
+		<div class="key-bottom">
+			Home
+		</div>
+	</div>
+</div>
+<div class="row">
+  <div class="sidebar-col"></div>
+  <div class="content-col main-page">
+    <div class="main-content">
+      Welcome to the home page of the <a href="about/">PPP</a>, Carnegie Mellon's hacking team. This site hosts our write-ups and discussions about capture the flag competitions.
+    </div>
+    <div class="main-content main-logo">
+      <img src="/images/new_logo.png"/>
+    </div>
+    <div class="main-content">
+      <h2 class="sidebar-title">Current CMU Students</h2>
+      Interested in joining? See <a href="contact">here</a>!
+    </div>
+    <div class="main-content">
+      <h2 class="sidebar-title">Recent Posts</h2>
+      
+        <a class="sidebar-link" href="/pwn/2020/07/22/UIUCTF20-accounting-accidents/">
+          <span class="sidebar-post-title">Accounting Accidents</span>
+          <span class="sidebar-post-ctf">UIUCTF</span>
+          <span class="sidebar-post-year">2020</span>
+        </a>
+      
+        <a class="sidebar-link" href="/general%20news/2019/04/06/back-in-action/">
+          <span class="sidebar-post-title">Back and Blogier than Ever!</span>
+          
+          <span class="sidebar-post-year">2019</span>
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2019/01/02/35c3ctf-2018-krautflare/">
+          <span class="sidebar-post-title">Krautflare</span>
+          <span class="sidebar-post-ctf">35c3</span>
+          <span class="sidebar-post-year">2018</span>
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2015/03/07/bkpctf-2015-quincy-center-uspace-write-up/">
+          <span class="sidebar-post-title">quincy-center (uspace)</span>
+          <span class="sidebar-post-ctf">Boston Key Party</span>
+          <span class="sidebar-post-year">2015</span>
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2015/03/07/bkpctf-2015-quincy-adams-kspace-write-up/">
+          <span class="sidebar-post-title">quincy-adams (kspace)</span>
+          <span class="sidebar-post-ctf">Boston Key Party</span>
+          <span class="sidebar-post-year">2015</span>
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2015/03/07/bkpctf-2015-braintree-tz-write-up/">
+          <span class="sidebar-post-title">braintree (tz)</span>
+          <span class="sidebar-post-ctf">Boston Key Party</span>
+          <span class="sidebar-post-year">2015</span>
+        </a>
+      
+        <a class="sidebar-link" href="/general%20news/2014/04/14/plaidctf-2014-website-post-mortem/">
+          <span class="sidebar-post-title">PlaidCTF 2014 &mdash; Website post-mortem</span>
+          
+          
+        </a>
+      
+        <a class="sidebar-link" href="/2014/04/01/why-ctf/">
+          <span class="sidebar-post-title">Why CTF</span>
+          
+          
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2014/02/27/codegate-2014-membership-800pt-pwnable-write-up/">
+          <span class="sidebar-post-title">membership</span>
+          <span class="sidebar-post-ctf">Codegate Quals</span>
+          <span class="sidebar-post-year">2014</span>
+        </a>
+      
+        <a class="sidebar-link" href="/pwn/2014/01/19/gits-gitsmsg/">
+          <span class="sidebar-post-title">gitsmsg</span>
+          <span class="sidebar-post-ctf">Ghost in the Shellcode</span>
+          <span class="sidebar-post-year">2014</span>
+        </a>
+      
+    </div>
+  </div>
+</div>
+
+	<div class="row spacer">
+	<div class="sidebar-col"></div>
+	<div class="content-col"></div>
+</div>
+<div class="row footer">
+	<div class="sidebar-col"></div>
+	<div class="content-col signature">
+		<div>
+			Plaid Parliament of Pwning<br>
+			<a href="http://www.pwning.net">www.pwning.net</a>
+		</div>
+    </div>
+</div>
+  </div>
+</body>
+<script src="/js/lightbox2/dist/js/lightbox-plus-jquery.min.js" type="text/javascript"></script>
+</html>

@@ -22,7 +22,7 @@ def process_file(filepath, ext, db_file):
         else:
             return 0
             
-        chunks = chunk_text(text, chunk_size=200, overlap=50)
+        chunks = chunk_text(text, chunk_size=150, overlap=50)
         
         for i, chunk in enumerate(chunks):
             record = {

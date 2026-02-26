@@ -4,8 +4,13 @@ import pdfplumber
 def parse_html_to_text(html_content: str) -> str:
     soup = BeautifulSoup(html_content, 'html.parser')
     
-    for script_or_style in soup(["script", "style", "nav", "footer", "header", "aside", "form", "iframe"]):
-        script_or_style.extract()
+    # Remove irrelevant Wikipedia boilerplate and general web noise
+    for element in soup(["script", "style", "nav", "footer", "header", "aside", "form", "iframe", "noscript", "sup"]):
+        element.extract()
+    
+    # Extract specific classes that are often noise (like Wikipedia edit links or references)
+    for element in soup.find_all(class_=["mw-editsection", "reference", "noprint", "infobox"]):
+        element.extract()
         
     text = soup.get_text(separator=' ', strip=True)
     return text
