@@ -11,11 +11,7 @@ else:
 nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 
-def chunk_text(text: str, chunk_size: int = 150, overlap: int = 30) -> list[str]:
-    """
-    Sentence-aware chunking. Groups sentences together until the chunk
-    reaches the approximate word count `chunk_size`.
-    """
+def chunk_text(text: str, chunk_size: int = 300, overlap: int = 50) -> list[str]:
     sentences = nltk.tokenize.sent_tokenize(text)
     chunks = []
     
@@ -31,7 +27,6 @@ def chunk_text(text: str, chunk_size: int = 150, overlap: int = 30) -> list[str]
         if current_length + sentence_words > chunk_size and current_chunk:
             chunks.append(" ".join(current_chunk))
             
-            # Keep the last few sentences for overlap
             overlap_words = 0
             overlap_chunk = []
             for s in reversed(current_chunk):

@@ -6,13 +6,12 @@ from RAG.sparse_embedder import SparseRetriever
 from RAG.retriever import HybridRetriever
 
 class AnswerGenerator:
-    def __init__(self, model_name="Qwen/Qwen2.5-7B-Instruct"):
+    def __init__(self, model_name="Qwen/Qwen2.5-1.5B-Instruct"):
         print(f"Loading Generation Model: {model_name}...")
         
         if torch.cuda.is_available():
             device = "cuda"
         else:
-            # Fallback to CPU to avoid MPS memory leak during long evaluation loops
             device = "cpu"
         
         print(f"Using device: {device}")
@@ -27,7 +26,7 @@ class AnswerGenerator:
     def build_messages(self, question: str, retrieved_chunks: list[dict]) -> list[dict]:
         context_str = "\n---\n".join([f"Source: {c['source']}\nText: {c['text']}" for c in retrieved_chunks])
         
-        system_prompt = "You are a strict question-answer assistant. Answer the user's question using ONLY the provided context. Your answer must be extremely concise, ideally just the exact entity, name, or phrase requested. Do NOT write full sentences. Do not explain your reasoning."
+        system_prompt = "You are a helpful and precise assistant. Answer the user's question using ONLY the provided context. Respond minimally in one sentence; do not explain your reasoning."
         
         messages = [
             {"role": "system", "content": system_prompt},

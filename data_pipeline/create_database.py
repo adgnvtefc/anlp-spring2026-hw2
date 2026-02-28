@@ -53,14 +53,12 @@ def process_all_data():
             if not os.path.exists(directory):
                 continue
                 
-            # Process HTML
             html_files = glob.glob(os.path.join(directory, "*.htm")) + glob.glob(os.path.join(directory, "*.html"))
             for filepath in html_files:
                 chunks_added = process_file(filepath, 'htm', db_file)
                 total_chunks += chunks_added
                 total_files += 1
                 
-            # Process PDFs
             pdf_files = glob.glob(os.path.join(directory, "*.pdf"))
             for filepath in pdf_files:
                 chunks_added = process_file(filepath, 'pdf', db_file)

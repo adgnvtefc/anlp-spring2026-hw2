@@ -1,0 +1,121 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[hyperref]{acl2021}
+\usepackage{times}
+\usepackage{latexsym}
+\renewcommand{\UrlFont}{\ttfamily\small}
+
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\aclfinalcopy 
+
+\title{CMU Advanced NLP Assignment 2:\\ End-to-end RAG System for Pittsburgh and CMU Factual QA}
+
+\author{Your Name \\
+  Carnegie Mellon University \\
+  \texttt{your_andrew_id@andrew.cmu.edu} \\}
+
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Data Creation}
+
+% How did you compile your knowledge resource, and how did you decide which documents to include?
+% How did you extract raw data? What tools did you use?
+% What data was annotated for training if any (what kind and how much)?
+% For training data that you did not annotate, did you use any extra data and in what way?
+
+Our knowledge resource was compiled to accurately represent factual information about Carnegie Mellon University (CMU) and Pittsburgh. We began with the baseline resources provided in the assignment description, including Wikipedia pages, City of Pittsburgh official websites, Visit Pittsburgh, and CMU official domains. To expand coverage, we followed links and subpages from these initial seeds that were highly relevant to our target query domains: history, events, music, food, and sports. 
+
+To collect this data, we built a custom Python-based scraping pipeline utilizing the \texttt{requests} library to fetch HTML content and \texttt{BeautifulSoup} (via \texttt{beautifulsoup4}) to extract meaningful text from HTML architectures while stripping navigation, footers, and script tags. For PDF documents, we used \textit{[Insert PDF extraction tool, e.g., \texttt{pypdf} or \texttt{pdfplumber}]} to parse the text directly.
+
+Once the raw text was extracted, we employed a sentence-aware chunking strategy utilizing the \texttt{nltk} library (\texttt{nltk.tokenize.sent\_tokenize}). We grouped sentences together until the chunk reached an approximate target size of 300 words, utilizing a 50-word overlap of previous sentences to maintain semantic coherence and context across chunk boundaries. 
+
+\textit{[Address Training Data Here: e.g., We did not manually annotate data for fine-tuning our LLM, as we utilized a zero-shot/few-shot approach via prompt engineering. / OR / We annotated X examples to...]}
+
+\section{Model Details}
+
+% What kind of methods (including baselines) did you try? Explain at least two variations (more is welcome). This can include variations of models, which data it was trained on, training strategy, embedding models, retrievers, re-rankers, etc.
+% What was your justification for trying these methods?
+
+Our factual Question-Answering pipeline consists of a Retrieval-Augmented Generation (RAG) architecture using open-source, sub-32B models accessible via HuggingFace.
+
+\paragraph{Retrieval Components:} We implemented a hybrid retrieval strategy:
+\begin{enumerate}
+    \item \textbf{Dense Retrieval:} We utilized the \texttt{BAAI/bge-small-en-v1.5} model, due to its strong efficiency and high performance on the MTEB leaderboard for retrieval tasks. Embeddings were stored and queried using \texttt{faiss} (IndexFlatIP).
+    \item \textbf{Sparse Retrieval:} We implemented BM25 using the \texttt{bm25s} library, incorporating term frequency-inverse document frequency heuristics. Our implementation included standard \texttt{nltk} stopword removal and Porter Stemmer preprocessing.
+    \item \textbf{Hybrid Fusion:} We combined dense and sparse signals to maximize recall for both semantic queries and exact keyword matches. We explored two variations for score combination:
+    \begin{itemize}
+        \item \textbf{Reciprocal Rank Fusion (RRF):} Combines rankings without requiring score normalization ($k=60$).
+        \item \textbf{Weighted Average:} Normalized the scores and applied an empirically selected weight of 60\% to the dense scores and 40\% to the sparse scores.
+    \end{itemize}
+\end{enumerate}
+
+\paragraph{Generation Component:} For the reader module, we utilized the \texttt{Qwen/Qwen2.5-1.5B-Instruct} instruction-tuned Large Language Model. This model was chosen for its excellent reasoning capabilities despite its small 1.5B parameter footprint, allowing it to easily run locally and evaluate context chunks efficiently. We utilized a zero-shot system prompt instructing the model to answer minimally, given only the retrieved context chunks.
+
+We justified this hybrid approach because dense models excel at understanding semantic intent and paraphrasing, whereas sparse BM25 is crucial for exact entity matching (e.g., retrieving specific names, dates, or unique locations in Pittsburgh).
+
+\section{Results}
+
+% What was the result of each model that you tried on the public leaderboard?
+
+\textit{[Insert your specific quantitative results on the public leaderboard below.]}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+\textbf{Model Variation} & \textbf{Recall} & \textbf{F1} & \textbf{ROUGE-L} \\
+\midrule
+Dense Only (\texttt{bge-small}) & XX.X & XX.X & XX.X \\
+Sparse Only (BM25) & XX.X & XX.X & XX.X \\
+Hybrid (Weighted 60/40) & XX.X & XX.X & XX.X \\
+Hybrid (RRF $k=60$) & XX.X & XX.X & XX.X \\
+\bottomrule
+\end{tabular}
+\caption{Performance of different retrieval variations on the public leaderboard.}
+\label{tab:results}
+\end{table}
+
+On the public leaderboard, our primary hybrid approach (RRF) achieved a score of \textit{[Insert Score]}. \textit{[Add a 1-2 sentence summary of how the different variations performed relative to each other based on your actual submissions]}.
+
+\section{Analysis}
+
+% Perform a comparison of the outputs on a more fine-grained level than just holistic accuracy numbers, and report the results. For instance, how did your models perform across various types of questions?
+% Report your results across at least two variations you tried, including variations of models, which data it was trained on, training strategy, embedding models, retrievers, re-rankers, etc.
+% Perform an analysis that evaluates the effectiveness of retrieve-and-augment strategy vs closed-book use of your models.
+% Evaluate your hybrid retrieval approach by comparing dense-only, sparse-only, and hybrid retrieval performance. Which fusion strategies work best for different types of questions?
+% Show examples of outputs from at least two of the systems you created. Ideally, these examples could be representative of the quantitative differences that you found above.
+
+\subsection{Performance Across Question Types}
+\textit{[Analyze how your system performed on different types of questions (e.g. historical facts vs. recent events, or questions requiring aggregation vs. exact extraction).]}
+
+\subsection{Retrieve-and-Augment vs. Closed-Book Performance}
+\textit{[Compare the RAG pipeline to querying \texttt{Qwen2.5-1.5B-Instruct} without context. Note how closed-book likely hallucinated dates or specific local names, while RAG successfully grounded the generation.]}
+
+\subsection{Retrieval Strategy Comparison}
+When analyzing our retrieval ablation, we observed distinct behaviors between dense and sparse methods. 
+
+\textit{[Discuss your findings: e.g. Dense performed better when questions used synonyms or complex phrasing not present in the text, while Sparse (BM25) was essential when questions contained rare keywords like specific building names or niche event titles. Discuss which fusion method (Weighted vs. RRF) proved more robust across the query set.]}
+
+\subsection{Qualitative Examples}
+
+To illustrate these differences, consider the differences in outputs for the following query:
+
+\textbf{Query:} \textit{[Insert Example Query]} \\
+\textbf{Sparse-Only Output:} \textit{[Insert Output]} \\
+\textbf{Hybrid (RRF) Output:} \textit{[Insert Output]} 
+
+\textit{[Explain why the outputs differ based on what each retriever surfaced: e.g. "The sparse retriever failed to find the chunk because the query used 'established' instead of 'founded', whereas the hybrid approach retrieved the correct chunk via its dense component, leading to the correct answer."]}
+
+\textbf{Query:} \textit{[Insert Example Query 2]} \\
+\textbf{Closed-Book Output:} \textit{[Insert Output]} \\
+\textbf{RAG Output:} \textit{[Insert Output]} 
+
+\textit{[Explain why the outputs differ: e.g. "Without augmented context, the LLM confidently hallucinated an incorrect venue for the concert, but guided by our hybrid retrieval, it extracted the correct location."] }
+
+\end{document}

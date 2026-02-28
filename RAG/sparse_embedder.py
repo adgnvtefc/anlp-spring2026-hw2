@@ -5,7 +5,6 @@ import nltk
 from nltk.stem import PorterStemmer
 from nltk.corpus import stopwords
 
-# Ensure NLTK resources are available
 nltk.download('stopwords', quiet=True)
 
 class SparseRetriever:

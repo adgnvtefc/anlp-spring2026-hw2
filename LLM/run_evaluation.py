@@ -11,8 +11,8 @@ from LLM.llm import AnswerGenerator
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 def main():
-    leaderboard_file = "leaderboard_queries.json"
-    output_file = "system_outputs/system_output_5.json"
+    leaderboard_file = "test_set_day_2.json"
+    output_file = "system_outputs/system_output_day_2.json"
     andrew_id = "hanmozha"
     
     print(f"Loading queries from {leaderboard_file}...")
@@ -43,17 +43,15 @@ def main():
         q_id = q["id"]
         q_text = q["question"]
         
-        chunks = hybrid.search(q_text, top_k=10, method="rrf")
+        chunks = hybrid.search(q_text, top_k=5, method="rrf")
         
         answer = generator.generate(q_text, chunks)
         
         results[q_id] = answer
 
-        # Clear MPS cache for Apple Silicon
         if torch.backends.mps.is_available():
             torch.mps.empty_cache()
             
-        # Clear CUDA cache for NVIDIA GPUs
         if torch.cuda.is_available():
             torch.cuda.empty_cache()
 
